@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CreateMember } from "../../domain/usecases";
+import { createMemberModel } from "../../data/models";
 import { mask } from "../utils";
 
 type onChageEvent = React.ChangeEvent<
@@ -22,13 +23,13 @@ export type ControllerMemberRegister = {
   onChangeParams: (e: onChageEvent) => void;
   onChangeAmount: (e: onChageEvent) => void;
   onChangePhone: (e: onChageEvent) => void;
-  setBirthDate: (e: any) => void; //TODO fix type
-  setRegistrationDate: (e: any) => void; //TODO fix type
+  setBirthDate: (e: Date) => void;
+  setRegistrationDate: (e: Date) => void;
   params: Params & {
-    mobileNumber: {value: string, rawValue: string};
+    mobileNumber: { value: string; rawValue: string };
     amount: string;
-    birthDate: any; //TODO fix type
-    registrationDate: any; //TODO fix type
+    birthDate: Date;
+    registrationDate: Date;
   };
 };
 
@@ -61,19 +62,18 @@ export const useControllerMemberRegister = ({
   };
 
   const submit = async () => {
-    const newParams: any = {
-      //TODO fix type
+    const newParams = {
       ...params,
       mobileNumber: mobileNumber.rawValue,
-      birthDate: birthDate.toLocaleDateString("pt-BR"),
-      registrationDate: registrationDate.toLocaleDateString("pt-BR"),
-      registrationDueDate: "05/07/2022", //TODO check on backend
+      birthDate: birthDate,
+      registrationDate: registrationDate,
       amount: mask.amount.unmask(amount),
-      workoutStatus: 0, //TODO check on backend
     };
 
     try {
-      const response = await createMembmer.create(newParams);
+      //TODO: create translator fromEntity and toEntity
+      const payload = newParams as createMemberModel.Response;
+      const response = await createMembmer.execute(payload);
       console.log("response", response);
     } catch (err) {
       console.error("ERROR >>>", err);

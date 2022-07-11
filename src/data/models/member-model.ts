@@ -1,4 +1,4 @@
-export type MemberModel = {
+export interface Member {
   memberId: number;
   photo: string | null;
   birthDate: Date;
@@ -19,16 +19,4 @@ export type MemberModel = {
   notification: number;
   createdAt: Date;
   updatedAt: Date;
-};
-
-export type PaginationMemberModel = {
-  count: number;
-  next: number | null;
-  previous: number | null;
-  results: MemberModel[];
-};
-
-export type CreateMemberModel = Omit<
-  MemberModel,
-  "memberId" | "createdAt" | "updatedAt"
->;
+}

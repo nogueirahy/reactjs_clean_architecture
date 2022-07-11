@@ -1,10 +1,9 @@
-import { CreateMemberModel, MemberModel } from "../models";
+import { MemberEntity } from "../entities";
 
 export interface CreateMember {
-  create: (params: CreateMember.Params) => Promise<CreateMember.Model>;
+  execute: (params: CreateMember.Params) => Promise<MemberEntity>;
 }
 
 export namespace CreateMember {
-  export type Params = CreateMemberModel;
-  export type Model = MemberModel;
+  export type Params = MemberEntity;
 }
