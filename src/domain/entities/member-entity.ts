@@ -1,4 +1,4 @@
-export type MemberModel = {
+export interface MemberEntity {
   memberId: number;
   photo: string | null;
   birthDate: Date;
@@ -21,14 +21,3 @@ export type MemberModel = {
   updatedAt: Date;
 };
 
-export type PaginationMemberModel = {
-  count: number;
-  next: number | null;
-  previous: number | null;
-  results: MemberModel[];
-};
-
-export type CreateMemberModel = Omit<
-  MemberModel,
-  "memberId" | "createdAt" | "updatedAt"
->;
