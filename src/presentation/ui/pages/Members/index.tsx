@@ -13,7 +13,8 @@ import {
 import { FcCheckmark, FcHighPriority } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 
-import { LoadTableList, LoadMemberList } from "../../../../domain/usecases";
+import { MemberEntity } from "../../../../domain/entities";
+import { LoadMemberList } from "../../../../domain/usecases";
 
 const Search = () => {
   return (
@@ -49,7 +50,7 @@ const PaginationMember = () => {
 };
 
 type TableMemberProps = {
-  data: LoadTableList.TableModel[];
+  data: MemberEntity[];
 };
 
 const TableMember = ({ data }: TableMemberProps) => {
@@ -104,12 +105,12 @@ type Props = {
 };
 
 const MembersPage = ({ loadMemberList }: Props) => {
-  const [data, setData] = useState<LoadTableList.TableModel[]>([]);
+  const [data, setData] = useState<MemberEntity[]>([]);
 
   const doRequest = useCallback(async () => {
-    const response = await loadMemberList.get();
-    setData(response.results);
-    //TODO implement pagination 
+    const data = await loadMemberList.execute();
+    setData(data);
+    //TODO implement pagination
   }, []);
 
   useEffect(() => {
