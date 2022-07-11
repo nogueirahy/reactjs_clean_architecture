@@ -1,26 +1,23 @@
 import { HttpClient, HttpStatusCode } from "../protocols/http";
-import { LoadMemberList, LoadTableList } from "../../domain/usecases";
+import { LoadMemberList } from "../../domain/usecases";
+import { tableMembeListModel } from "../models";
 
 export class RemoteTableMemberList implements LoadMemberList {
   constructor(
     private readonly url: string,
-    private readonly httpClient: HttpClient<RemoteTableMemberList.Model>
+    private readonly httpClient: HttpClient<tableMembeListModel.Response>
   ) {}
 
-  async get(): Promise<RemoteTableMemberList.Model> {
+  async execute(): Promise<tableMembeListModel.Response> {
     const httpResponse = await this.httpClient.get({ url: this.url });
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok:
         return httpResponse.body;
       case HttpStatusCode.forbidden:
-        throw new Error("Access Denied Error");
+        throw new Error("Access Denied Error"); //TODO create exceptions
       default:
-        throw new Error("Unexpected Error");
+        throw new Error("Unexpected Error"); //TODO create exceptions
     }
   }
-}
-
-export namespace RemoteTableMemberList {
-  export type Model = LoadTableList.Model;
 }
